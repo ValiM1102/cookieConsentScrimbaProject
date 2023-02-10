@@ -2,6 +2,8 @@ const modal = document.querySelector("#modal")
 const modalCloseBtn = document.querySelector('#modal-close-btn')
 const consentForm = document.querySelector('#consent-form')
 const modalText = document.querySelector('#modal-text')
+const modalDeclineBtn = document.querySelector('#modal-decline-btn')
+const modalChoiceBtn =document.querySelector('#modal-choice-btns') 
 
 
 setTimeout(function(){
@@ -12,8 +14,18 @@ modalCloseBtn.addEventListener("click", function(){
     modal.style.display = "none"
 })
 
+modalDeclineBtn.addEventListener("mouseover", function(){
+    modalChoiceBtn.classList.toggle('reverse')
+})
+
 consentForm.addEventListener("submit", function(e){
     e.preventDefault()
+
+    const consentFormData =  new FormData(consentForm)
+    
+    const name = consentFormData.get('fullName')
+    
+
     modalText.innerHTML = `
         <div class="modal-inner-loading">
         <!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->
@@ -59,12 +71,14 @@ consentForm.addEventListener("submit", function(e){
 
     setTimeout(function(){
         document.querySelector('#modal-inner').innerHTML = `
-        <h2>Thanks you sucker! </h2>
+        <h2>Thanks you <span class="modal-display-name">${name}</span>, you sucker! </h2>
         <p>We've just sold the rights to your eternal soul.</p>
         <div class="idiot-gif">
             <img src="images/pirate-laughing.gif">
         </div>
         `
+        modalCloseBtn.disabled = false
     }, 3000)
+
 })
 
